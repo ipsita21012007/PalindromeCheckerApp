@@ -1,28 +1,36 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 public class PalindromeCheckerApp {
-    public static void main(String[] args) {
+    public static boolean isPalindrome(String input) {
+        Queue<Character> queue = new LinkedList<>();
+        Stack<Character> stack = new Stack<>();
 
+        // Step 1: Enqueue and Push characters
+        for (char ch : input.toCharArray()) {
+            queue.add(ch);   // Enqueue (FIFO)
+            stack.push(ch);  // Push (LIFO)
+        }
 
-        String str = "level";
-        char[] arr = str.toCharArray();
+        // Step 2: Compare dequeue vs pop
+        while (!queue.isEmpty() && !stack.isEmpty()) {
+            char fromQueue = queue.remove(); // Dequeue
+            char fromStack = stack.pop();    // Pop
 
-        int left = 0;
-        int right = arr.length - 1;
-
-        boolean palindrome = true;
-
-        while (left < right) {
-            if (arr[left] != arr[right]) {
-                palindrome = false;
-                break;
+            if (fromQueue != fromStack) {
+                return false; // Mismatch found → Not a palindrome
             }
-            left++;
-            right--;
         }
 
-        if (palindrome) {
-            System.out.println("Palindrome");
-        } else {
-            System.out.println("Not Palindrome");
-        }
+        return true; // All matched → Palindrome
     }
+
+    public static void main(String[] args) {
+        String test1 = "madam";
+        String test2 = "hello";
+
+        System.out.println(test1 + " → Palindrome? " + isPalindrome(test1));
+        System.out.println(test2 + " → Palindrome? " + isPalindrome(test2));
+    }
+
 }
